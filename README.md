@@ -411,6 +411,8 @@ The following is [a whole list of lifecycle methods](http://facebook.github.io/r
 How to get the data of a component from a server or an API provider? The answer is using Ajax to fetch data in the event handler of `componentDidMount`. When the server response arrives, store the data with `this.setState()` to trigger a re-render of your UI.
 
 ```js
+var axios = require('axios');
+
 var UserGist = React.createClass({
   getInitialState: function() {
     return {
@@ -420,15 +422,19 @@ var UserGist = React.createClass({
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(result) {
-      var lastGist = result[0];
-      if (this.isMounted()) {
-        this.setState({
-          username: lastGist.owner.login,
-          lastGistUrl: lastGist.html_url
+    axios.get(this.props.source)
+        .then(function(result) {
+            console.log(result)
+            var lastGist = result.data[0];
+            this.setState({
+                username: lastGist.owner.login,
+                lastGistUrl: lastGist.html_url
+            });
+            }.bind(this))
+        .catch(function (error) {
+            console.log(error);
         });
-      }
-    }.bind(this));
+        
   },
 
   render: function() {
