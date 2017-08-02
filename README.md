@@ -122,11 +122,11 @@ ReactDOM.render(
 `React.createClass()` creates a component class, which implements a render method to return an component instance of the class. You don't need to call `new` on the class in order to get an instance, just use it as a normal HTML tag.
 
 ```javascript
-var HelloMessage = React.createClass({
-  render: function() {
-    return <h1>Hello {this.props.name}</h1>;
-  }
-});
+class HelloMessage extends Component{
+    render()  {
+        return <h1>Hello {this.props.name}</h1>;
+    }
+}
 
 ReactDOM.render(
   <HelloMessage name="John" />,
@@ -151,14 +151,14 @@ var HelloMessage = React.createClass({
 });
 
 // correct
-var HelloMessage = React.createClass({
-  render: function() {
+class HelloMessage extends Component{
+  render()  {
     return <div>
       <h1>Hello {this.props.name}</h1>
       <p>some text</p>
     </div>;
   }
-});
+}
 ```
 
 ## Demo05: this.props.children
@@ -168,8 +168,8 @@ var HelloMessage = React.createClass({
 React uses `this.props.children` to access a component's children nodes.
 
 ```javascript
-var NotesList = React.createClass({
-  render: function() {
+class NotesList extends Component{
+  render()  {
     return (
       <ol>
       {
@@ -180,7 +180,7 @@ var NotesList = React.createClass({
       </ol>
     );
   }
-});
+}
 
 ReactDOM.render(
   <NotesList>
