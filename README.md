@@ -464,7 +464,7 @@ If a React component's data is received asynchronously, we can use a Promise obj
 ```javascript
 ReactDOM.render(
   <RepoList
-    promise={$.getJSON('https://api.github.com/search/repositories?q=javascript&sort=stars')}
+    promise={ axios.get('https://api.github.com/search/repositories?q=javascript&sort=stars') }
   />,
   document.getElementById('example')
 );
@@ -481,12 +481,14 @@ var RepoList = React.createClass({
   },
 
   componentDidMount() {
+    console.log(this.props.promise)
     this.props.promise.then(
       value => this.setState({loading: false, data: value}),
       error => this.setState({loading: false, error: error}));
   },
 
   render: function() {
+     
     if (this.state.loading) {
       return <span>Loading...</span>;
     }
@@ -494,7 +496,7 @@ var RepoList = React.createClass({
       return <span>Error: {this.state.error.message}</span>;
     }
     else {
-      var repos = this.state.data.items;
+      var repos = this.state.data.data.items;
       var repoList = repos.map(function (repo) {
         return (
           <li>
@@ -511,6 +513,13 @@ var RepoList = React.createClass({
     }
   }
 });
+
+ReactDOM.render(
+  <RepoList
+    promise={ axios.get('https://api.github.com/search/repositories?q=javascript&sort=stars') }
+  />,
+  document.getElementById('example')
+);
 ```
 
 ## Demo13: Server-side rendering
